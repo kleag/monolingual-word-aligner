@@ -13,7 +13,7 @@ class StanfordNLP:
     def __init__(self):
         self.server = ServerProxy(JsonRpc20(),
                                   TransportTcpIp(addr=("127.0.0.1", 8080)))
-    
+
     def parse(self, text):
         return json.loads(self.server.parse(text))
 
@@ -80,7 +80,7 @@ def nerWordAnnotator(parseResult):
         tag = [[parseResult['sentences'][0]['words'][i][1]['CharacterOffsetBegin'], parseResult['sentences'][0]['words'][i][1]['CharacterOffsetEnd']], wordIndex, parseResult['sentences'][0]['words'][i][0], parseResult['sentences'][0]['words'][i][1]['NamedEntityTag']]
         wordIndex += 1
 
-        if tag[3] <> 'O':
+        if tag[3] != 'O':
             res.append(tag)
 
 
@@ -100,7 +100,7 @@ def ner(parseResult):
 
     for i in xrange(len(nerWordAnnotations)):
 
-               
+
         if i == 0:
             currentNE.append(nerWordAnnotations[i][2])
             currentCharacterOffsets.append(nerWordAnnotations[i][0])
@@ -126,9 +126,9 @@ def ner(parseResult):
             if i == len(nerWordAnnotations)-1:
                 namedEntities.append([currentCharacterOffsets, currentWordOffsets, currentNE, nerWordAnnotations[i][3]])
 
-    #print namedEntities  
+    #print namedEntities
 
-    return namedEntities    
+    return namedEntities
 ##############################################################################################################################
 
 
@@ -251,7 +251,7 @@ def findParents(dependencyParse, wordIndex, word):
                 parent = [int(dependencyParse[i][1].split('{')[1].split('}')[0].split(' ')[2]), dependencyParse[i][1].split('{')[0], dependencyParse[i][0]]
                 parentsWithRelation.append(parent)
                 break
-        
+
     return parentsWithRelation
 ##############################################################################################################################
 
@@ -300,7 +300,7 @@ def findChildren(dependencyParse, wordIndex, word):
                 child = [int(dependencyParse[i][2].split('{')[1].split('}')[0].split(' ')[2]), dependencyParse[i][2].split('{')[0], dependencyParse[i][0]]
                 childrenWithRelation.append(child)
                 break
-        
+
     return childrenWithRelation
 ##############################################################################################################################
 
